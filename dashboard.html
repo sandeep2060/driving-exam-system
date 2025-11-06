@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Nepal Online Driving License Exam</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #64748b;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --light: #f8fafc;
+      --dark: #1e293b;
+      --gray: #94a3b8;
+      --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f1f5f9;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header Styles */
+    .app-header {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .title i {
+      font-size: 1.8rem;
+    }
+
+    .nav {
+      display: flex;
+      gap: 15px;
+    }
+
+    /* Button Styles */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      font-size: 0.95rem;
+    }
+
+    .btn.primary {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn.primary:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .btn.outline {
+      background-color: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+
+    .btn.outline:hover {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn.secondary {
+      background-color: var(--secondary);
+      color: white;
+    }
+
+    .btn.secondary:hover {
+      background-color: #475569;
+    }
+
+    .btn.success {
+      background-color: var(--success);
+      color: white;
+    }
+
+    .btn.success:hover {
+      background-color: #0da271;
+    }
+
+    .btn.warning {
+      background-color: var(--warning);
+      color: white;
+    }
+
+    .btn.warning:hover {
+      background-color: #e58a08;
+    }
+
+    .btn.danger {
+      background-color: var(--danger);
+      color: white;
+    }
+
+    .btn.danger:hover {
+      background-color: #dc2626;
+    }
+
+    .btn:disabled {
+      background-color: var(--gray);
+      cursor: not-allowed;
+    }
+
+    /* Card Styles */
+    .card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: var(--card-shadow);
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    /* Badge Styles */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .badge.success {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+
+    .badge.warning {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+
+    .badge.danger {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+
+    .badge.info {
+      background-color: #dbeafe;
+      color: #1e40af;
+    }
+
+    /* Dashboard Layout */
+    .dashboard {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 25px;
+      padding: 25px 0;
+    }
+
+    @media (min-width: 768px) {
+      .dashboard {
+        grid-template-columns: 2fr 1fr;
+      }
+    }
+
+    /* Welcome Section */
+    .welcome-section {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+
+    .user-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .user-details h2 {
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+
+    .user-details p {
+      color: var(--secondary);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    /* Progress Section */
+    .progress-section {
+      margin-top: 20px;
+    }
+
+    .progress-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .progress-item:last-child {
+      border-bottom: none;
+    }
+
+    .progress-info {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .progress-title {
+      font-weight: 600;
+    }
+
+    .progress-status {
+      font-size: 0.85rem;
+      color: var(--secondary);
+    }
+
+    .progress-bar {
+      height: 8px;
+      background-color: #e2e8f0;
+      border-radius: 4px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .progress-fill.success {
+      background-color: var(--success);
+    }
+
+    .progress-fill.warning {
+      background-color: var(--warning);
+    }
+
+    .progress-fill.danger {
+      background-color: var(--danger);
+    }
+
+    /* Exam Section */
+    .exam-card {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    .exam-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .exam-card p {
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+
+    .exam-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .exam-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .exam-detail .label {
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+
+    .exam-detail .value {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+    }
+
+    .action-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: var(--card-shadow);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .action-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .action-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      font-size: 1.5rem;
+    }
+
+    .action-card.primary .action-icon {
+      background-color: #dbeafe;
+      color: var(--primary);
+    }
+
+    .action-card.success .action-icon {
+      background-color: #d1fae5;
+      color: var(--success);
+    }
+
+    .action-card.warning .action-icon {
+      background-color: #fef3c7;
+      color: var(--warning);
+    }
+
+    .action-card.danger .action-icon {
+      background-color: #fee2e2;
+      color: var(--danger);
+    }
+
+    .action-title {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .action-desc {
+      font-size: 0.85rem;
+      color: var(--secondary);
+    }
+
+    /* Notices */
+    .notice {
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .notice.warning {
+      background-color: #fef3c7;
+      color: #92400e;
+      border-left: 4px solid var(--warning);
+    }
+
+    .notice.info {
+      background-color: #dbeafe;
+      color: #1e40af;
+      border-left: 4px solid var(--primary);
+    }
+
+    .notice-icon {
+      font-size: 1.5rem;
+    }
+
+    /* Recent Activity */
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .activity-item {
+      display: flex;
+      gap: 15px;
+      padding: 10px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .activity-icon.success {
+      background-color: #d1fae5;
+      color: var(--success);
+    }
+
+    .activity-icon.warning {
+      background-color: #fef3c7;
+      color: var(--warning);
+    }
+
+    .activity-icon.info {
+      background-color: #dbeafe;
+      color: var(--primary);
+    }
+
+    .activity-details {
+      flex: 1;
+    }
+
+    .activity-title {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .activity-time {
+      font-size: 0.85rem;
+      color: var(--secondary);
+    }
+
+    /* Footer */
+    .app-footer {
+      background-color: var(--dark);
+      color: white;
+      padding: 30px 0;
+      margin-top: 50px;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+    }
+
+    .footer-section h3 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: var(--gray);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 20px;
+      margin-top: 20px;
+      border-top: 1px solid #334155;
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .header-inner {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .nav {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .user-info {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .actions {
+        justify-content: center;
+      }
+      
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="container header-inner">
+      <h1 class="title">
+        <i class="fas fa-id-card"></i>
+        Nepal Driving License Portal
+      </h1>
+      <nav class="nav">
+        <a href="profile.html" class="btn outline">
+          <i class="fas fa-user"></i>
+          Profile
+        </a>
+        <a href="results.html" class="btn outline">
+          <i class="fas fa-chart-bar"></i>
+          Results
+        </a>
+        <button id="logoutBtn" class="btn outline">
+          <i class="fas fa-sign-out-alt"></i>
+          Logout
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="dashboard">
+      <div class="main-content">
+        <!-- Welcome Section -->
+        <section class="card">
+          <div class="welcome-section">
+            <div class="user-info">
+              <div class="user-avatar">AS</div>
+              <div class="user-details">
+                <h2>Welcome, <span id="userName">Aarav Sharma</span></h2>
+                <p>License Application ID: <span id="applicationId">NP-DL-2023-8472</span></p>
+              </div>
+            </div>
+            <div class="status-info">
+              <p>Application Status: <span id="verificationStatus" class="badge warning">Under Review</span></p>
+              <p>License Category: <span id="licenseCategory">Category B (Car)</span></p>
+            </div>
+            <div class="actions">
+              <a id="startExamBtn" class="btn primary" href="exam.html">
+                <i class="fas fa-play-circle"></i>
+                Start Theory Exam
+              </a>
+              <a class="btn secondary" href="profile.html">
+                <i class="fas fa-edit"></i>
+                Update Profile
+              </a>
+              <a class="btn outline" href="appointment.html">
+                <i class="fas fa-calendar-alt"></i>
+                Book Appointment
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Application Progress -->
+        <section class="card">
+          <div class="card-header">
+            <h2 class="card-title">Application Progress</h2>
+          </div>
+          <div class="progress-section">
+            <div class="progress-item">
+              <div class="progress-info">
+                <div class="progress-title">Profile Completion</div>
+                <div class="progress-status">Completed</div>
+                <div class="progress-bar">
+                  <div class="progress-fill success" style="width: 100%"></div>
+                </div>
+              </div>
+              <span class="badge success"><i class="fas fa-check"></i> Completed</span>
+            </div>
+            <div class="progress-item">
+              <div class="progress-info">
+                <div class="progress-title">Document Verification</div>
+                <div class="progress-status">Under review</div>
+                <div class="progress-bar">
+                  <div class="progress-fill warning" style="width: 70%"></div>
+                </div>
+              </div>
+              <span class="badge warning"><i class="fas fa-clock"></i> In Progress</span>
+            </div>
+            <div class="progress-item">
+              <div class="progress-info">
+                <div class="progress-title">Theory Exam</div>
+                <div class="progress-status">Pending</div>
+                <div class="progress-bar">
+                  <div class="progress-fill danger" style="width: 0%"></div>
+                </div>
+              </div>
+              <span class="badge danger"><i class="fas fa-times"></i> Not Started</span>
+            </div>
+            <div class="progress-item">
+              <div class="progress-info">
+                <div class="progress-title">Practical Test</div>
+                <div class="progress-status">Not scheduled</div>
+                <div class="progress-bar">
+                  <div class="progress-fill danger" style="width: 0%"></div>
+                </div>
+              </div>
+              <span class="badge danger"><i class="fas fa-times"></i> Not Started</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Exam Information -->
+        <section class="exam-card">
+          <h2>Driving Theory Exam</h2>
+          <p>Complete the online theory exam to proceed with your license application.</p>
+          <div class="exam-details">
+            <div class="exam-detail">
+              <span class="label">Questions</span>
+              <span class="value">30</span>
+            </div>
+            <div class="exam-detail">
+              <span class="label">Duration</span>
+              <span class="value">45 mins</span>
+            </div>
+            <div class="exam-detail">
+              <span class="label">Passing Score</span>
+              <span class="value">70%</span>
+            </div>
+            <div class="exam-detail">
+              <span class="label">Attempts</span>
+              <span class="value">3/5</span>
+            </div>
+          </div>
+          <div class="actions">
+            <a id="startExamBtn" class="btn success" href="exam.html">
+              <i class="fas fa-play-circle"></i>
+              Start Exam Now
+            </a>
+            <a class="btn outline" style="background: rgba(255,255,255,0.2); color: white; border-color: white;" href="practice.html">
+              <i class="fas fa-book"></i>
+              Practice Test
+            </a>
+          </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="card">
+          <div class="card-header">
+            <h2 class="card-title">Quick Actions</h2>
+          </div>
+          <div class="quick-actions">
+            <div class="action-card primary">
+              <div class="action-icon">
+                <i class="fas fa-file-alt"></i>
+              </div>
+              <div class="action-title">Application Form</div>
+              <div class="action-desc">View or update your application</div>
+            </div>
+            <div class="action-card success">
+              <div class="action-icon">
+                <i class="fas fa-book"></i>
+              </div>
+              <div class="action-title">Study Materials</div>
+              <div class="action-desc">Access learning resources</div>
+            </div>
+            <div class="action-card warning">
+              <div class="action-icon">
+                <i class="fas fa-calendar-check"></i>
+              </div>
+              <div class="action-title">Appointments</div>
+              <div class="action-desc">Schedule your tests</div>
+            </div>
+            <div class="action-card danger">
+              <div class="action-icon">
+                <i class="fas fa-question-circle"></i>
+              </div>
+              <div class="action-title">Help & Support</div>
+              <div class="action-desc">Get assistance</div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="sidebar">
+        <!-- Notices -->
+        <section class="card">
+          <div class="card-header">
+            <h2 class="card-title">Important Notices</h2>
+          </div>
+          <div class="notice warning">
+            <div class="notice-icon">
+              <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div>
+              <strong>Document Verification Required</strong>
+              <p>Please submit your citizenship certificate for verification.</p>
+            </div>
+          </div>
+          <div class="notice info">
+            <div class="notice-icon">
+              <i class="fas fa-info-circle"></i>
+            </div>
+            <div>
+              <strong>Exam Schedule Update</strong>
+              <p>New exam slots available for next week.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="card">
+          <div class="card-header">
+            <h2 class="card-title">Recent Activity</h2>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-icon info">
+                <i class="fas fa-user-edit"></i>
+              </div>
+              <div class="activity-details">
+                <div class="activity-title">Profile Updated</div>
+                <div class="activity-time">2 days ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon warning">
+                <i class="fas fa-file-upload"></i>
+              </div>
+              <div class="activity-details">
+                <div class="activity-title">Documents Submitted</div>
+                <div class="activity-time">5 days ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon success">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <div class="activity-details">
+                <div class="activity-title">Application Submitted</div>
+                <div class="activity-time">1 week ago</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Upcoming Appointments -->
+        <section class="card">
+          <div class="card-header">
+            <h2 class="card-title">Upcoming Appointments</h2>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-icon warning">
+                <i class="fas fa-car"></i>
+              </div>
+              <div class="activity-details">
+                <div class="activity-title">Practical Driving Test</div>
+                <div class="activity-time">Not yet scheduled</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon info">
+                <i class="fas fa-desktop"></i>
+              </div>
+              <div class="activity-details">
+                <div class="activity-title">Theory Exam</div>
+                <div class="activity-time">Available anytime</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Nepal Driving License</h3>
+          <p>Official portal for driving license applications, exams, and services in Nepal.</p>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Apply for License</a></li>
+            <li><a href="#">Exam Schedule</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Support</h3>
+          <ul class="footer-links">
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Document Requirements</a></li>
+            <li><a href="#">Feedback</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        &copy; 2023 Department of Transport Management, Nepal. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Simple JavaScript for dynamic content
+    document.addEventListener('DOMContentLoaded', function() {
+      // Update user information
+      const userName = document.getElementById('userName');
+      const userEmail = document.getElementById('userEmail');
+      const applicationId = document.getElementById('applicationId');
+      const verificationStatus = document.getElementById('verificationStatus');
+      
+      // In a real application, these would come from an API
+      // For demo purposes, we're using static data
+      
+      // Check if user needs to verify email
+      const verifyEmailWarn = document.getElementById('verifyEmailWarn');
+      const isEmailVerified = false; // This would come from user data
+      
+      if (!isEmailVerified) {
+        verifyEmailWarn.hidden = false;
+        document.getElementById('startExamBtn').disabled = true;
+        document.getElementById('startExamBtn').classList.add('disabled');
+      }
+      
+      // Logout functionality
+      document.getElementById('logoutBtn').addEventListener('click', function() {
+        if (confirm('Are you sure you want to logout?')) {
+          // In a real app, this would call a logout API
+          alert('You have been logged out successfully.');
+          // Redirect to login page
+          window.location.href = 'login.html';
+        }
+      });
+      
+      // Quick action cards functionality
+      const actionCards = document.querySelectorAll('.action-card');
+      actionCards.forEach(card => {
+        card.addEventListener('click', function() {
+          const title = this.querySelector('.action-title').textContent;
+          alert(`Navigating to ${title} section...`);
+          // In a real app, this would navigate to the appropriate page
+        });
+      });
+    });
+  </script>
+</body>
+</html>

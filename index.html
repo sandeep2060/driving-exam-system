@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nepal Online Driving License Exam</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" href="assets/icons/favicon.ico">
+  <meta name="description" content="Nepal's Online Driving License Written Exam System">
+  <style>
+    /* Base styles and variables */
+    :root {
+      --primary: #0b5ed7;
+      --primary-dark: #0a4cb8;
+      --secondary: #ff6b35;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #198754;
+      --danger: #dc3545;
+      --gray: #6c757d;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: #f5f7fa;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header styles */
+    .site-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: var(--shadow);
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      height: 60px;
+      animation: fadeIn 1s ease;
+    }
+
+    .title {
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .nav {
+      display: flex;
+      gap: 15px;
+    }
+
+    /* Button styles */
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn.primary {
+      background-color: var(--secondary);
+      color: white;
+      border: none;
+    }
+
+    .btn.primary:hover {
+      background-color: #e55a2b;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+    }
+
+    .btn.outline {
+      background-color: transparent;
+      color: white;
+      border: 2px solid white;
+    }
+
+    .btn.outline:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Hero section */
+    .hero {
+      text-align: center;
+      padding: 80px 0;
+      background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), 
+                  url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero h2 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+      animation: slideDown 1s ease;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      color: var(--gray);
+      animation: fadeIn 1.5s ease;
+    }
+
+    .cta {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 60px;
+      animation: fadeIn 2s ease;
+    }
+
+    .hero-graphics {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .float-img {
+      width: 200px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .float-img.delay {
+      animation-delay: 1.5s;
+    }
+
+    /* Card styles */
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Grid layouts */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    /* Sections */
+    section {
+      margin: 60px 0;
+    }
+
+    .about h3, .rules h3 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+      position: relative;
+    }
+
+    .about h3::after, .rules h3::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background-color: var(--secondary);
+    }
+
+    .about ul {
+      margin: 20px 0;
+      padding-left: 20px;
+    }
+
+    .about li {
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .about li::before {
+      content: '✓';
+      color: var(--success);
+      font-weight: bold;
+      position: absolute;
+      left: -20px;
+    }
+
+    .steps .card {
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    .steps .card h4 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+
+    .steps .card p {
+      color: var(--gray);
+    }
+
+    .steps .card i {
+      font-size: 2.5rem;
+      color: var(--secondary);
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .rules .grid-3 > div {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .rules img {
+      margin-bottom: 15px;
+      border-radius: 10px;
+      transition: var(--transition);
+    }
+
+    .rules img:hover {
+      transform: scale(1.05);
+    }
+
+    /* Footer */
+    .site-footer {
+      background-color: var(--dark);
+      color: white;
+      text-align: center;
+      padding: 30px 0;
+      margin-top: 60px;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideDown {
+      from { 
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* Stats section */
+    .stats {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 60px 0;
+      text-align: center;
+    }
+
+    .stats .grid-3 {
+      margin-top: 40px;
+    }
+
+    .stats .stat-item {
+      padding: 20px;
+    }
+
+    .stats .stat-number {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .stats .stat-label {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    /* Testimonials */
+    .testimonials {
+      text-align: center;
+    }
+
+    .testimonial-card {
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+      margin: 20px;
+      position: relative;
+    }
+
+    .testimonial-card::before {
+      content: """;
+      font-size: 5rem;
+      color: var(--secondary);
+      opacity: 0.2;
+      position: absolute;
+      top: -10px;
+      left: 10px;
+      font-family: Georgia, serif;
+    }
+
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 20px;
+      color: var(--gray);
+    }
+
+    .testimonial-author {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .header-inner {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .hero h2 {
+        font-size: 2.2rem;
+      }
+      
+      .cta {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .btn {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Coat_of_arms_of_Nepal.svg/200px-Coat_of_arms_of_Nepal.svg.png" alt="Gov Logo" class="logo" aria-hidden="true">
+      </div>
+      <div>
+        <h1 class="title">Government of Nepal</h1>
+        <p class="subtitle">Online Driving License Written Exam System</p>
+      </div>
+      <nav class="nav">
+        <a class="btn primary" href="login.html">Login</a>
+        <a class="btn outline" href="register.html">Register</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h2>Welcome to Online Likhit Exam</h2>
+      <p>Register, submit documents, get verified, and take your written exam online with strong security features. Our platform ensures a seamless and secure examination experience.</p>
+      <div class="cta">
+        <a class="btn primary" href="register.html">Get Started</a>
+        <a class="btn outline" href="login.html">I already have an account</a>
+      </div>
+      <div class="hero-graphics">
+        <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Road map" class="float-img">
+        <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Traffic signs" class="float-img delay">
+      </div>
+    </section>
+
+    <section class="grid about card">
+      <div>
+        <h3>About the Exam</h3>
+        <p>The written exam consists of 25 multiple choice questions. You will have 60 minutes to complete the exam. Each question carries 4 marks, and you must score at least 60% to pass.</p>
+        <ul>
+          <li>25 MCQs covering traffic rules and safety</li>
+          <li>60 minutes total time</li>
+          <li>One-time submission with no going back</li>
+          <li>Immediate results after completion</li>
+          <li>Secure exam environment with proctoring</li>
+        </ul>
+        <a href="#" class="btn primary">Learn More</a>
+      </div>
+      <div>
+        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Exam illustration" style="max-width:100%; border-radius:10px;">
+      </div>
+    </section>
+
+    <section class="grid-3 steps">
+      <div class="card">
+        <i class="fas fa-user-plus"></i>
+        <h4>1. Register</h4>
+        <p>Create your account and verify your email address with a simple process.</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-id-card"></i>
+        <h4>2. Complete Profile</h4>
+        <p>Fill in personal details and upload required documents for verification.</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-file-alt"></i>
+        <h4>3. Take Exam</h4>
+        <p>Attempt the exam in secure full-screen mode with proctoring features.</p>
+      </div>
+    </section>
+
+    <section class="stats">
+      <h3>Our Success in Numbers</h3>
+      <div class="grid-3">
+        <div class="stat-item">
+          <span class="stat-number" data-count="15000">0</span>
+          <span class="stat-label">Exams Completed</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" data-count="92">0</span>
+          <span class="stat-label">Success Rate</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" data-count="45">0</span>
+          <span class="stat-label">Days Average Processing</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card rules">
+      <h3>Traffic Rules & Safety</h3>
+      <div class="grid-3">
+        <div>
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25856cd63?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Helmet" width="100%" height="150" style="object-fit:cover;">
+          <p>Always wear helmets and seat belts for your safety.</p>
+        </div>
+        <div>
+          <img src="https://images.unsplash.com/photo-1549924233-15be5d4d75f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Speed limit" width="100%" height="150" style="object-fit:cover;">
+          <p>Observe speed limits and road signs at all times.</p>
+        </div>
+        <div>
+          <img src="https://images.unsplash.com/photo-1563013541-3a3c8c333a78?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="No phone" width="100%" height="150" style="object-fit:cover;">
+          <p>Avoid mobile phone usage while driving to prevent accidents.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonials">
+      <h3>What Our Users Say</h3>
+      <div class="grid-3">
+        <div class="testimonial-card">
+          <p class="testimonial-text">"The immediate results feature is fantastic. No more waiting for weeks to know if I passed."</p>
+          <p class="testimonial-author">- Sandeep Gaire, Butwal</p>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"I was nervous about the exam, but the interface was so user-friendly. I passed on my first attempt!"</p>
+          <p class="testimonial-author">- Sunita Gurung, Pokhara</p>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"The online exam system was so convenient. I could prepare and take the test from home without any hassle."</p>
+          <p class="testimonial-author">- Bikram Adhikari, Butwal</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Government of Nepal — Ministry of Physical Infrastructure and Transport</p>
+      <p>Contact: info@drivinglicense.gov.np | Phone: +977-1-4221234</p>
+    </div>
+  </footer>
+
+  <script>
+    // Set current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+    
+    // Animated counter for statistics
+    const counters = document.querySelectorAll('.stat-number');
+    const speed = 200;
+    
+    const animateCounter = () => {
+      counters.forEach(counter => {
+        const target = +counter.getAttribute('data-count');
+        const count = +counter.innerText;
+        const increment = target / speed;
+        
+        if (count < target) {
+          counter.innerText = Math.ceil(count + increment);
+          setTimeout(() => animateCounter(), 1);
+        } else {
+          counter.innerText = target;
+        }
+      });
+    };
+    
+    // Trigger counter animation when element is in viewport
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter();
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    
+    document.querySelector('.stats').querySelectorAll('.stat-item').forEach(item => {
+      observer.observe(item);
+    });
+    
+    // Add scroll animation to cards
+    const cardObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    });
+    
+    document.querySelectorAll('.card').forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      cardObserver.observe(card);
+    });
+  </script>
+</body>
+</html>
