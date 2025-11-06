@@ -1,0 +1,6 @@
+.exam { display: grid; gap: 12px; }
+.exam .timer { font-weight: 600; color: var(--gov-red); }
+.exam .nav { display: flex; gap: 6px; flex-wrap: wrap; }
+.exam .question { padding: 12px; border: 1px solid var(--border); border-radius: 8px; }
+
+

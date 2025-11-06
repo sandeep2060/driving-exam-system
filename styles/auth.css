@@ -1,0 +1,33 @@
+.auth-container { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+.auth-card { width: 100%; max-width: 480px; background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); overflow: hidden; }
+.auth-card h1 { margin: 0 0 8px; }
+.muted { color: var(--muted); font-size: 14px; }
+.field { margin-top: 12px; display: grid; gap: 6px; }
+.field input, .field select { padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font: inherit; width: 100%; min-width: 0; }
+.field input:focus { outline: 2px solid #bfdcff; border-color: #9ecbff; }
+.error { color: var(--gov-red); font-size: 13px; min-height: 16px; }
+.toast { margin-top: 10px; font-size: 14px; }
+
+.inline-fields { display: grid; gap: 12px; grid-template-columns: 1fr; }
+.inline-fields .field { min-width: 0; }
+@media (min-width: 768px) {
+  .inline-fields { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .inline-fields.names { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* DOB group: show 3 columns on desktop, stack on mobile */
+@media (min-width: 768px) {
+  .inline-fields.dob { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Input group with prefix (e.g., +977) */
+.input-group { display: flex; align-items: stretch; width: 100%; min-width: 0; }
+.input-prefix { background: #f1f5f9; color: #0f172a; border: 1px solid var(--border); border-right: none; border-radius: 8px 0 0 8px; padding: 10px 12px; white-space: nowrap; display: inline-flex; align-items: center; }
+.input-group input { flex: 1; border-radius: 0 8px 8px 0; }
+.input-suffix-btn { border: 1px solid var(--border); border-left: none; background: #f8fafc; color: #0f172a; padding: 0 12px; border-radius: 0 8px 8px 0; cursor: pointer; }
+.input-suffix-btn:hover { background: #eef2f7; }
+.hidden { display: none !important; }
+
+
