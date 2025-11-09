@@ -1,8 +1,8 @@
 ;(function initSupabase() {
   const missing = []
   const env = window.__ENV__ || {}
-  if (!env.SUPABASE_URL) missing.push('SUPABASE_URL')
-  if (!env.SUPABASE_ANON_KEY) missing.push('SUPABASE_ANON_KEY')
+  if (!env.SUPABASE_URL) missing.push('https://yjhgyecvxmhiqrrdhyyx.supabase.co')
+  if (!env.SUPABASE_ANON_KEY) missing.push('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlqaGd5ZWN2eG1oaXFycmRoeXl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI0MTAxNDIsImV4cCI6MjA3Nzk4NjE0Mn0.urwU0Gw6fnxz4I77CPBSoFzVGaRYYx1JjXEWgDUiwss')
   if (missing.length) {
     console.error('Missing Supabase config:', missing.join(', '))
     alert('Supabase is not configured. Please copy js/config.example.js to js/config.js and set your credentials.')
@@ -27,5 +27,6 @@
   }
   document.head.appendChild(script)
 })()
+
 
 
